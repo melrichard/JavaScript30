@@ -59,6 +59,29 @@
 
 <script>
 
+  function playSound() {
+    const audio = document.querySelector(`audio[data-key = "${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key = "${e.keyCode}"]`)
+    if (!audio) return //stop function if there is no audio
+    audio.currentTime = 0; //start the audio at 0 so we can press the same key many times in a row
+    audio.play();
+    key.classList.add("playing");
+  };
+
+  function removeTransition (e){ 
+        //console.log(e) returns 6 objects one transition event has propertyName of "transform"
+    if (e.propertyName !== "transform") return //skip if not transform
+        //console.log(this) returns the div with class = key playing
+    this.classList.remove("playing")
+  }
+
+
+ const keys = document.querySelectorAll(".key"); //will return an array of key divs
+  
+ keys.forEach(key => key.addEventListener('transitionend', removeTransition)) //console.log(key) selects all the divs with a class of key
+
+ window.addEventListener ('keydown', playSound)
+ 
 </script>
 
 
